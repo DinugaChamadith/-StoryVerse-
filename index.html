@@ -145,6 +145,17 @@
         .light-mode .prose{
             color:#111;
         }
+        .story-card i {
+    transition: transform 0.3s ease;
+}
+
+.story-card:hover i {
+    transform: rotate(10deg) scale(1.2);
+}
+
+.story-card:hover {
+    box-shadow: 0 20px 30px -5px rgba(212, 175, 55, 0.5);
+}
     </style>
 </head>
 <body class="min-h-screen">
@@ -312,15 +323,13 @@ box-shadow:0 10px 30px rgba(0,0,0,0.5);">
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                    <div class="story-card rounded-2xl p-6 text-center">
+                    <div class="story-card rounded-2xl p-6 text-center cursor-pointer" onclick="openAuthorModal('kuravi')">
                         <i class="fas fa-pen-nib text-3xl text-amber-500 mb-4"></i>
                         <h4 class="text-lg font-bold text-white">Kuravi Thunuwara</h4>
-                        <p class="text-slate-400 text-sm mt-2">
-                            Author of multiple adventure, mystery and science fiction short stories featured on StoryVerse.
-                        </p>
+                        <p class="text-slate-400 text-sm mt-2">Author of multiple adventure, mystery and science fiction short stories featured on StoryVerse.</p>
                     </div>
 
-                <div class="story-card rounded-2xl p-6 text-center">
+                <div class="story-card rounded-2xl p-6 text-center cursor-pointer" onclick="openAuthorModal('sasiru')">
                     <i class="fas fa-ghost text-3xl text-amber-500 mb-4"></i>
                     <h4 class="text-lg font-bold text-white">Sasiru Dulmith</h4>
                     <p class="text-slate-400 text-sm mt-2">
@@ -329,7 +338,7 @@ box-shadow:0 10px 30px rgba(0,0,0,0.5);">
                     </p>
                 </div>
 
-                <div class="story-card rounded-2xl p-6 text-center">
+                <div class="story-card rounded-2xl p-6 text-center cursor-pointer" onclick="openAuthorModal('nisira')">
                     <i class="fas fa-gear text-3xl text-amber-500 mb-4"></i>
                     <h4 class="text-lg font-bold text-white">Nisira Nimsara</h4>
                     <p class="text-slate-400 text-sm mt-2">
@@ -906,7 +915,47 @@ renderPagination(filtered.length);
         localStorage.setItem("storyCount", totalStories);
     }
 
+}function openAuthorModal(authorId) {
+  const modalContent = {
+    kuravi: {
+      name: "Kuravi Thunuwara",
+      bio: "Author of multiple adventure, mystery and science fiction short stories featured on StoryVerse.",
+      image: ""
+    },
+    sasiru: {
+      name: "Sasiru Dulmith",
+      bio: "An editor and creative partner dedicated to refining our story...",
+      image: ""
+    },
+    nisira: {
+      name: "Nisira Nimsara",
+      bio: "Author of multiple adventure, mystery and science fiction short stories featured on StoryVerse.",
+      image: ""
+    },
+  };
+
+  const author = modalContent[authorId];
+  if (!author) return;
+
+  const modalHTML = `
+    <div id="authorModal" class="fixed inset-0 z-[120] flex items-center justify-center bg-black/70">
+      <div class="bg-slate-900 p-8 rounded-2xl max-w-md text-center relative">
+        <button onclick="closeAuthorModal()" class="absolute top-4 right-4 text-white text-xl">&times;</button>
+        <img src="${author.image}" class="w-24 h-24 rounded-full mx-auto mb-4" />
+        <h3 class="text-xl font-bold text-amber-500 mb-2">${author.name}</h3>
+        <p class="text-slate-300">${author.bio}</p>
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
 }
+
+function closeAuthorModal() {
+  const modal = document.getElementById('authorModal');
+  if (modal) modal.remove();
+}
+
     </script>
 </body>
 </html>
